@@ -1,20 +1,19 @@
 import React, { Component } from "react";
 import '../../style/login&register.css';
 
-import appService from "../../services/appService";
 import FormNav from '../from-nav.component';
-import Home from "./Home";
+import appService from "../../services/appService";
 
-const LoginPage = (props) => {
+const LoginForm = (props) => {
 
-  const [Usename, Password] = props.value;
-  const [onChangUsename, onChangPassword, onClickLogin] = props.onChange;
+  const [username, Password] = props.value;
+  const [onChangUsername, onChangPassword, onClickLogin] = props.onChange;
 
   return (
     <div class="Frame">
       <FormNav path="/login" />
       <div class="input_form">
-        <input type="text" class="text" name="username" value={Usename} onChange={onChangUsename} />
+        <input type="text" class="text" name="username" value={username} onChange={onChangUsername} />
         <span>username</span>
         <br />
         <br />
@@ -36,20 +35,20 @@ export default class Login extends Component {
   constructor(props) {
     super(props);
 
-    this.onChangUsename = this.onChangUsename.bind(this);
+    this.onChangUsername = this.onChangUsername.bind(this);
     this.onChangPassword = this.onChangPassword.bind(this);
     this.onClickLogin = this.onClickLogin.bind(this);
 
     this.state = {
-      usename: "",
+      username: "",
       password: "",
-      token: ""
+      loggedin: false
     };
   }
 
-  onChangUsename(e) {
+  onChangUsername(e) {
     this.setState({
-      usename: e.target.value
+      username: e.target.value
     });
   }
 
@@ -60,19 +59,32 @@ export default class Login extends Component {
   }
 
   onClickLogin() {
-    appService.login(this.state.usename,this.state.password)
-    .then(response => {
-        this.props.setToken(response.data);
-        // console.log(response.data);
-    })
-    .catch(e => {
+    appService.login(this.state.username, this.state.password)
+      .then(response => {
+        this.setState({
+          loggedin: true
+        });
+        this.props.setToken(response.data.token);
+      })
+      .catch(e => {
         console.log(e);
-    });
+      });
   }
 
   render() {
     return (
-      <LoginPage value={[this.state.usename, this.state.password]} onChange={[this.onChangUsename, this.onChangPassword, this.onClickLogin]} />
+      <>
+        {this.state.loggedin ?
+          <div class="Frame">
+            <FormNav path="/login" />
+            <div class="input_form">
+              <label for="checkbox-1-1">Logged In...</label>
+            </div>
+          </div>
+          :
+          <LoginForm value={[this.state.username, this.state.password]} onChange={[this.onChangUsername, this.onChangPassword, this.onClickLogin]} />
+        }
+      </>
     );
   }
 }
