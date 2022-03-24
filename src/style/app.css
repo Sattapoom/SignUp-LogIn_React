@@ -1,0 +1,16 @@
+div>a {
+    color: #FFA4B6;
+    padding-left: 12px;
+    font-size: 22px;
+    text-transform: uppercase;
+    padding-bottom: 5px;
+    letter-spacing: 2px;
+    display: inline-block;
+    font-weight: 100;
+    text-decoration: none;
+}
+  
+div>a:first-child {
+    padding-left: 0px;
+}
+
