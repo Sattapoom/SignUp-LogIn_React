@@ -5,7 +5,7 @@ function FormNav(props) {
         <div>
             <Link to="/home" class={props.path==="/home" ? "active":"nonactive"}>Home</Link>
             <Link to={localStorage.getItem("token")? "":"/login"} class={props.path==="/login" ? "active":"nonactive"}>Log In</Link>
-            <Link to="/register" class={props.path==="/register" ? "active":"nonactive"}>Register</Link>
+            <Link to="/register" class={props.path==="/register" ? "active":"nonactive"}>Sign Up</Link>
         </div>
     );
 }

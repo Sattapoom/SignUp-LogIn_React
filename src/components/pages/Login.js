@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import '../../style/login&register.css';
 
-import FormNav from '../from-nav.component';
+import FormNav from '../navbar-homepage/from-nav.component';
 import appService from "../../services/appService";
 
 const LoginForm = (props) => {

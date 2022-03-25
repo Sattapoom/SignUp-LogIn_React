@@ -11,16 +11,22 @@ class appService {
     login(USRN, PWD) {
         var data = {
             "username": USRN,
-            "password": PWD,
+            "password": PWD
         }
         return request.post("/login", data);
     }
     register(USRN, PWD) {
         var data = {
             "username": USRN,
-            "password": PWD,
+            "password": PWD
         }
         return request.post("/register", data);
+    }
+    welcome(token) {
+        var data = {
+            "token": token
+        }
+        return request.post("/welcome", data);
     }
 }
 
