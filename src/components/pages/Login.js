@@ -64,7 +64,8 @@ export default class Login extends Component {
         this.setState({
           loggedin: true
         });
-        this.props.setToken(response.data.token);
+        localStorage.setItem("token", JSON.stringify(response.data.token));
+        window.location.href = "/home"
       })
       .catch(e => {
         console.log(e);

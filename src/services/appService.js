@@ -1,4 +1,4 @@
-import axios from "axios"; // Promise based HTTP client RESTful API
+import axios from "axios";
 
 const request = axios.create({
     baseURL: "http://localhost:4001",

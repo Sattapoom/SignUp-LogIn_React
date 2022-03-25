@@ -55,7 +55,8 @@ export default class Login extends Component {
             signedup: true,
             reqError: null
           });
-          this.props.setToken(response.data);
+          localStorage.setItem("token", JSON.stringify(response.data.token));
+          window.location.href = "/home"
         })
         .catch(e => {
           this.setState({
@@ -69,7 +70,20 @@ export default class Login extends Component {
 
   render() {
     return (
-      <RegisterPage onClickSignup={this.onClickSignup} reqError={this.state.reqError} />
+      <>
+        {this.state.signedup ?
+          <div class="Frame">
+            <FormNav path="/login" />
+            <div class="input_form">
+              <label for="checkbox-1-1">Sign Up success...</label>
+              <br/>
+              <label for="checkbox-1-1">Going back to Home page.</label>
+            </div>
+          </div>
+          : 
+          <RegisterPage onClickSignup={this.onClickSignup} reqError={this.state.reqError} />
+        }
+      </>
     );
   }
 }

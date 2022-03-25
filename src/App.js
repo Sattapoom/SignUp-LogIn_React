@@ -7,19 +7,14 @@ import Register from './components/pages/Register';
 
 
 function App() {
-  const [token, setToken] = useState('');
-
-  useEffect(() => {
-    console.log(token);
-  }, [token]);
 
   return (
     <Router>
       <Routes>
-        <Route exact path="/" element={<Home token={token} />} />
-        <Route exact path="/home" element={<Home token={token} />} />
-        <Route exact path="/login" element={<Login setToken={setToken} />} />
-        <Route exact path="/register" element={<Register setToken={setToken} />} />
+        <Route exact path="/" element={<Home />} />
+        <Route exact path="/home" element={<Home />} />
+        <Route exact path="/login" element={<Login />} />
+        <Route exact path="/register" element={<Register />} />
       </Routes>
     </Router>
   );
