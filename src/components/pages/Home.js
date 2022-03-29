@@ -13,19 +13,23 @@ export default class Home extends Component {
         };
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.getUsernameByToken(this.token)
     }
 
-    getUsernameByToken(token){
-        appService.welcome(token)
-        .then(response => {
-            this.setState({username :response.data.username});
-        })
-        .catch(e => {
-          console.log(e);
-        });
-    }    
+    getUsernameByToken(token) {
+        if (this.token) {
+            appService.welcome(token)
+                .then(response => {
+                    this.setState({ username: response.data.username });
+                })
+                .catch(e => {
+                    console.log(e);
+                    localStorage.removeItem("token");
+                    window.location.href = "";
+                });
+        }
+    }
 
     checkLoggedIn() {
         if (this.token) {
@@ -50,10 +54,10 @@ export default class Home extends Component {
     playable = () => {
         return (
             <>
-            <br /><br /><br />
-            <h1 style={{textTransform: null}}>{`Welcome ${this.state.username}`}</h1>
-            <br /><br /><br />
-            <button class="signin" onClick={() => console.log(this.state.username)}>Play</button>
+                <br /><br /><br />
+                <h1 style={{ textTransform: null }}>{`Welcome ${this.state.username}`}</h1>
+                <br /><br /><br />
+                <button class="signin" onClick={() => (window.location.href = "/playgame")}>Play</button>
             </>
         );
     }

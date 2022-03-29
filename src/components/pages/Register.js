@@ -10,6 +10,12 @@ const RegisterPage = (props) => {
   const [password, onChangePassword] = useState('');
   const [confirm_password, onChangeConfirm_password] = useState('');
 
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      props.onClickSignup(username, password, confirm_password)
+    }
+  }
+
   return (
     <div class="Frame">
       <FormNav path="/register" />
@@ -18,10 +24,10 @@ const RegisterPage = (props) => {
         <span>username</span>
         <br />
         <br />
-        <input type="password" class="text" name="password" value={password} onChange={(e) => onChangePassword(e.target.value)} />
+        <input type="password" class="text" name="password" value={password} onChange={(e) => onChangePassword(e.target.value)} onKeyDown={handleKeyDown} />
         <span>password</span>
         <br />
-        <input type="password" class="text" name="password" value={confirm_password} onChange={(e) => onChangeConfirm_password(e.target.value)} />
+        <input type="password" class="text" name="password" value={confirm_password} onChange={(e) => onChangeConfirm_password(e.target.value)} onKeyDown={handleKeyDown} />
         <span>confirm password</span>
         <hr />
         <button class="signin" onClick={() => props.onClickSignup(username, password, confirm_password)}>Sign up</button>
@@ -76,11 +82,11 @@ export default class Login extends Component {
             <FormNav path="/login" />
             <div class="input_form">
               <label for="checkbox-1-1">Sign Up success...</label>
-              <br/>
+              <br />
               <label for="checkbox-1-1">Going back to Home page.</label>
             </div>
           </div>
-          : 
+          :
           <RegisterPage onClickSignup={this.onClickSignup} reqError={this.state.reqError} />
         }
       </>
