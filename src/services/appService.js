@@ -28,6 +28,21 @@ class appService {
         }
         return request.post("/welcome", data);
     }
+    joinGame(token) {
+        var data = {
+            "token": token
+        }
+        return request.put("/game/join", data);
+    }
+    getOnlinePlayer() {
+        return request.get("/game/onlines");
+    }
+    quitGame(token) {
+        var data = {
+            "token": token
+        }
+        return request.put("/game/quit", data);
+    }
 }
 
 export default new appService();
