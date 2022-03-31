@@ -3,12 +3,12 @@ import '../../style/game.css';
 
 function PlayersList(props){
 
-    const [displayPlayers, setDisplayPlayers] = useState(false);
+    const [displayPlayers, setDisplayPlayers] = useState(true);
 
     return (
         <>
-            <button class="player-overlay-button" style={displayPlayers ? { borderBottomLeftRadius: 0, borderBottomRightRadius: 0 } : null} onClick={() => setDisplayPlayers(!displayPlayers)}>Players</button>
             <div>
+                <button class="player-overlay-button" style={displayPlayers ? { borderBottomLeftRadius: 0, borderBottomRightRadius: 0 } : null} onClick={() => setDisplayPlayers(!displayPlayers)}>Players</button>
                 <table class="player-overlay" style={displayPlayers ? { opacity: 1 } : { opacity: 0 }}>
                     <thead>
                         <tr>

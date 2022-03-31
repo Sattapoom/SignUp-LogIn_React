@@ -15,7 +15,6 @@ export default class Home extends Component {
 
     componentDidMount() {
         this.getUsernameByToken(this.token)
-        this.quitGameRoom(this.token)
     }
 
     getUsernameByToken(token) {
@@ -23,23 +22,12 @@ export default class Home extends Component {
             appService.welcome(token)
                 .then(response => {
                     this.setState({ username: response.data.username });
+                    console.log(`Welcome ${response.data.username}.`)
                 })
                 .catch(e => {
                     console.log(e);
                     localStorage.removeItem("token");
                     window.location.href = "";
-                });
-        }
-    }
-
-    quitGameRoom(token){
-        if (token) {
-            appService.quitGame(token)
-                .then(response => {
-                    console.log(response.data)
-                })
-                .catch(e => {
-                    console.log(e);
                 });
         }
     }
