@@ -1,27 +1,41 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import '../../style/game.css';
 
 import piece from '../../images/piece.png';
+import useDraggable from "./useDraggable";
+import appService from "../../services/appService";
 
-export default function Piece(props) {
-
-    const username = props.username
-    const screenHeight = window.innerHeight;
-    const screenWidth = window.innerWidth;
-    const [mousePressed, onMousePressed] = useState(false)
-    const [position, setPosition] = useState({ left: 120-screenWidth/2, top: 0 })
-
-    const onPieceDrag = (e) => {
-        if (mousePressed && e.clientX-120 > 0 && e.clientY > 0) {
-            const leftShift = e.clientX - (screenWidth*0.545)
-            const topShift = e.clientY - (screenHeight*0.05);
-            setPosition({ left:leftShift, top: topShift });
-        }
+const updatePosition = (index, username, pos) => {
+    const DATA = {
+        index: index,
+        username: username,
+        piecePos: pos
     }
+    appService.updateGameState(DATA)
+        .then(response => {
+            console.log(response.data)
+        })
+        .catch(e => {
+            console.log(e);
+        });
+}
+
+export default function Piece({ index, player }) {
+
+    const cardRef = useRef(null);
+    const [DX, setDX] = useState(player.piecePos.x);
+    const [DY, setDY] = useState(player.piecePos.y);
+
+    useDraggable(cardRef, DX, DY, setDX, setDY);
+
+    useEffect(() => {
+        setDX(player.piecePos.x);
+        setDY(player.piecePos.y);
+    }, [player.piecePos]);
 
     return (
-        <div class="piece" style={position} onMouseDown={() => onMousePressed(true)} onMouseMove={(e) => onPieceDrag(e)} onMouseUp={()=> onMousePressed(false)}>
-            <p class='pieceName'>{username}</p>
+        <div className="piece" ref={cardRef} onMouseUp={() => updatePosition(index, player.username, { x: DX, y: DY })}>
+            <p class="pieceName">{player.username}</p>
             <img class="pieceImg" src={piece} alt="Piece" />
         </div>
     );

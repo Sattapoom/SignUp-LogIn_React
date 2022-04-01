@@ -18,7 +18,7 @@ function PlayersList(props){
                     <tbody>
                         {props.players && props.players.map((value, index) =>
                             <tr key={index}>
-                                <td>{value}</td>
+                                <td>{value.username}</td>
                             </tr>
                         )}
                     </tbody>

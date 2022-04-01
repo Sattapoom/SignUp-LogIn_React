@@ -3,26 +3,38 @@ import '../../style/game.css';
 
 import Piece from './Piece';
 import PlayersList from './PlayersList';
-import appService from "../../services/appService";
+import Dice from "./Dice";
 
-import board from '../../images/sunset.jpg';
+import appService from "../../services/appService";
+import board from '../../images/board-1.jpg';
 
 export default class Game extends Component {
     constructor(props) {
         super(props);
         this.token = JSON.parse(localStorage.getItem("token"));
         this.state = {
-            players: []
+            gamestate: {
+                playersData: [],
+                rolledNum: 0,
+                latestRoller: ""
+            },
+            piecemove: {
+                username: null,
+                index: null,
+                pos: { x: 0, y: 0 }
+            }
         };
     }
 
     componentDidMount() {
+
         this.joinGame(this.token);
+
         setInterval(() => {
             this.reloadOnlinePlayer();
         }, 2000);
-        window.addEventListener("beforeunload", (e) => 
-        {  
+
+        window.addEventListener("beforeunload", (e) => {
             e.preventDefault();
             this.quitGameRoom(this.token)
             return e.returnValue = 'Are you sure you want to close?';
@@ -30,9 +42,9 @@ export default class Game extends Component {
     }
 
     async reloadOnlinePlayer() {
-        await appService.getOnlinePlayer()
+        await appService.getGameState()
             .then(response => {
-                this.setState({ players: response.data.players });
+                this.setState({ gamestate: response.data.gameState });
             })
             .catch(e => {
                 console.log(e);
@@ -44,7 +56,7 @@ export default class Game extends Component {
         if (token) {
             await appService.joinGame(token)
                 .then(response => {
-                    this.setState({ players: response.data.players });
+                    this.setState({ gamestate: response.data.gameState });
                 })
                 .catch(e => {
                     console.log(e);
@@ -57,7 +69,7 @@ export default class Game extends Component {
         }
     }
 
-    quitGameRoom(token){
+    quitGameRoom(token) {
         if (token) {
             appService.quitGame(token)
                 .then(response => {
@@ -73,11 +85,12 @@ export default class Game extends Component {
         return (
             <div class='game-body'>
                 <div class='left-bar'>
-                    <PlayersList players={this.state.players} />
+                    <PlayersList players={this.state.gamestate.playersData} />
+                    <Dice rolledNum={this.state.gamestate.rolledNum} latestRoller={this.state.gamestate.latestRoller} />
                 </div>
                 <img class="board" src={board} alt="Board" />
-                <div class="pieces">
-                    {this.state.players.map((item, index) => <Piece key={index} username={item} />)}
+                <div class="piecesContainer">
+                    {this.state.gamestate.playersData.map((player, index) => <Piece key={index} index={index} player={player} />)}
                 </div>
             </div>
         );

@@ -34,14 +34,23 @@ class appService {
         }
         return request.put("/game/join", data);
     }
-    getOnlinePlayer() {
-        return request.get("/game/onlines");
-    }
     quitGame(token) {
         var data = {
             "token": token
         }
         return request.put("/game/quit", data);
+    }
+    getGameState() {
+        return request.get("/game/getState");
+    }
+    updateGameState(data) {
+        return request.put("/game/updateState", data);
+    }
+    rollDice(token) {
+        var data = {
+            "token": token
+        }
+        return request.put("/game/rollDice", data);
     }
 }
 
