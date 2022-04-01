@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const request = axios.create({
-    baseURL: "http://localhost:4001",
+    baseURL: "https://poom-snake-api.herokuapp.com",
     headers: {
         "Content-type": "application/json"
     }
